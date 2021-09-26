@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package helloworld;
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloResponse {
+    string result = 1;
+}
+
+message TestRequest {
+    bytes param = 1;
+}
+
+message UploadRequest {
+    string name = 1;
+    bytes data = 2;
+    string type = 3;
+}
+
+service HelloServer {
+    rpc Hello (HelloRequest) returns (HelloResponse) {}
+    rpc Test (TestRequest) returns (HelloResponse) {}
+    rpc Upload (UploadRequest) returns (HelloResponse) {}
+}
+

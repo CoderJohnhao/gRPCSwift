@@ -3,27 +3,48 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B931FA694A626D01031FDE78 /* Pods_gRPCDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4797A73B297D78517262A325 /* Pods_gRPCDemo.framework */; };
 		E90A0BD126EA51CD00823BE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BD026EA51CD00823BE9 /* AppDelegate.swift */; };
-		E90A0BD326EA51CD00823BE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BD226EA51CD00823BE9 /* SceneDelegate.swift */; };
 		E90A0BD526EA51CD00823BE9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BD426EA51CD00823BE9 /* ViewController.swift */; };
 		E90A0BD826EA51CD00823BE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90A0BD626EA51CD00823BE9 /* Main.storyboard */; };
 		E90A0BDA26EA51CE00823BE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90A0BD926EA51CE00823BE9 /* Assets.xcassets */; };
 		E90A0BDD26EA51CE00823BE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90A0BDB26EA51CE00823BE9 /* LaunchScreen.storyboard */; };
+		E90A0BE626EA58F200823BE9 /* helloworld.proto in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BE526EA58F200823BE9 /* helloworld.proto */; };
+		E90A0BE926EA5B6700823BE9 /* helloworld.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BE726EA5B6700823BE9 /* helloworld.grpc.swift */; };
+		E90A0BEA26EA5B6700823BE9 /* helloworld.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BE826EA5B6700823BE9 /* helloworld.pb.swift */; };
+		E90A0BEC26EA5CBA00823BE9 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BEB26EA5CBA00823BE9 /* Server.swift */; };
+		E92AA467270026E100C4298F /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AA466270026E100C4298F /* HomeVC.swift */; };
+		E92AA46A2700506D00C4298F /* SimpleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AA4692700506D00C4298F /* SimpleVC.swift */; };
+		E92AA46C27005C0E00C4298F /* UploadImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AA46B27005C0E00C4298F /* UploadImageVC.swift */; };
+		E92AA46E2700680800C4298F /* Interceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AA46D2700680800C4298F /* Interceptors.swift */; };
+		E933523826F1D89000E0E060 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = E933523726F1D89000E0E060 /* 1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1249ADE46B17B09894ED78DE /* Pods-gRPCDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPCDemo.release.xcconfig"; path = "Target Support Files/Pods-gRPCDemo/Pods-gRPCDemo.release.xcconfig"; sourceTree = "<group>"; };
+		4797A73B297D78517262A325 /* Pods_gRPCDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gRPCDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADF0233DE46A310FCA2FE506 /* Pods-gRPCDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPCDemo.debug.xcconfig"; path = "Target Support Files/Pods-gRPCDemo/Pods-gRPCDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		E90A0BCD26EA51CD00823BE9 /* gRPCDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gRPCDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90A0BD026EA51CD00823BE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E90A0BD226EA51CD00823BE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E90A0BD426EA51CD00823BE9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E90A0BD726EA51CD00823BE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E90A0BD926EA51CE00823BE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90A0BDC26EA51CE00823BE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E90A0BDE26EA51CE00823BE9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E90A0BE526EA58F200823BE9 /* helloworld.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = helloworld.proto; sourceTree = "<group>"; };
+		E90A0BE726EA5B6700823BE9 /* helloworld.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.grpc.swift; sourceTree = "<group>"; };
+		E90A0BE826EA5B6700823BE9 /* helloworld.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = helloworld.pb.swift; sourceTree = "<group>"; };
+		E90A0BEB26EA5CBA00823BE9 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		E92AA466270026E100C4298F /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		E92AA4692700506D00C4298F /* SimpleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleVC.swift; sourceTree = "<group>"; };
+		E92AA46B27005C0E00C4298F /* UploadImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageVC.swift; sourceTree = "<group>"; };
+		E92AA46D2700680800C4298F /* Interceptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptors.swift; sourceTree = "<group>"; };
+		E933523726F1D89000E0E060 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		E9BEED8926F2E3A4004DAB2D /* gRPCDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gRPCDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +52,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B931FA694A626D01031FDE78 /* Pods_gRPCDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F8015326E245291AF7A55B2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ADF0233DE46A310FCA2FE506 /* Pods-gRPCDemo.debug.xcconfig */,
+				1249ADE46B17B09894ED78DE /* Pods-gRPCDemo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E40A1B44F2D14A9D02A5447F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4797A73B297D78517262A325 /* Pods_gRPCDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E90A0BC426EA51CD00823BE9 = {
 			isa = PBXGroup;
 			children = (
 				E90A0BCF26EA51CD00823BE9 /* gRPCDemo */,
 				E90A0BCE26EA51CD00823BE9 /* Products */,
+				7F8015326E245291AF7A55B2 /* Pods */,
+				E40A1B44F2D14A9D02A5447F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,14 +98,39 @@
 			isa = PBXGroup;
 			children = (
 				E90A0BD026EA51CD00823BE9 /* AppDelegate.swift */,
-				E90A0BD226EA51CD00823BE9 /* SceneDelegate.swift */,
+				E92AA46827004DF600C4298F /* Controllers */,
 				E90A0BD426EA51CD00823BE9 /* ViewController.swift */,
+				E90A0BEB26EA5CBA00823BE9 /* Server.swift */,
+				E92AA46D2700680800C4298F /* Interceptors.swift */,
+				E90A0BE426EA58D900823BE9 /* proto */,
 				E90A0BD626EA51CD00823BE9 /* Main.storyboard */,
 				E90A0BD926EA51CE00823BE9 /* Assets.xcassets */,
+				E933523726F1D89000E0E060 /* 1.png */,
 				E90A0BDB26EA51CE00823BE9 /* LaunchScreen.storyboard */,
 				E90A0BDE26EA51CE00823BE9 /* Info.plist */,
+				E9BEED8926F2E3A4004DAB2D /* gRPCDemo-Bridging-Header.h */,
 			);
 			path = gRPCDemo;
+			sourceTree = "<group>";
+		};
+		E90A0BE426EA58D900823BE9 /* proto */ = {
+			isa = PBXGroup;
+			children = (
+				E90A0BE526EA58F200823BE9 /* helloworld.proto */,
+				E90A0BE726EA5B6700823BE9 /* helloworld.grpc.swift */,
+				E90A0BE826EA5B6700823BE9 /* helloworld.pb.swift */,
+			);
+			path = proto;
+			sourceTree = "<group>";
+		};
+		E92AA46827004DF600C4298F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E92AA466270026E100C4298F /* HomeVC.swift */,
+				E92AA4692700506D00C4298F /* SimpleVC.swift */,
+				E92AA46B27005C0E00C4298F /* UploadImageVC.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +140,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E90A0BE126EA51CE00823BE9 /* Build configuration list for PBXNativeTarget "gRPCDemo" */;
 			buildPhases = (
+				7DBE0C75FA91D364733EEC7D /* [CP] Check Pods Manifest.lock */,
 				E90A0BC926EA51CD00823BE9 /* Sources */,
 				E90A0BCA26EA51CD00823BE9 /* Frameworks */,
 				E90A0BCB26EA51CD00823BE9 /* Resources */,
+				C00B3A25F079EE63F9BA01F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -98,6 +166,7 @@
 				TargetAttributes = {
 					E90A0BCC26EA51CD00823BE9 = {
 						CreatedOnToolsVersion = 12.5.1;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -127,19 +196,69 @@
 				E90A0BDD26EA51CE00823BE9 /* LaunchScreen.storyboard in Resources */,
 				E90A0BDA26EA51CE00823BE9 /* Assets.xcassets in Resources */,
 				E90A0BD826EA51CD00823BE9 /* Main.storyboard in Resources */,
+				E933523826F1D89000E0E060 /* 1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7DBE0C75FA91D364733EEC7D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-gRPCDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C00B3A25F079EE63F9BA01F6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-gRPCDemo/Pods-gRPCDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-gRPCDemo/Pods-gRPCDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-gRPCDemo/Pods-gRPCDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E90A0BC926EA51CD00823BE9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E90A0BEC26EA5CBA00823BE9 /* Server.swift in Sources */,
+				E92AA46E2700680800C4298F /* Interceptors.swift in Sources */,
+				E92AA467270026E100C4298F /* HomeVC.swift in Sources */,
+				E90A0BEA26EA5B6700823BE9 /* helloworld.pb.swift in Sources */,
 				E90A0BD526EA51CD00823BE9 /* ViewController.swift in Sources */,
+				E92AA46A2700506D00C4298F /* SimpleVC.swift in Sources */,
 				E90A0BD126EA51CD00823BE9 /* AppDelegate.swift in Sources */,
-				E90A0BD326EA51CD00823BE9 /* SceneDelegate.swift in Sources */,
+				E90A0BE926EA5B6700823BE9 /* helloworld.grpc.swift in Sources */,
+				E92AA46C27005C0E00C4298F /* UploadImageVC.swift in Sources */,
+				E90A0BE626EA58F200823BE9 /* helloworld.proto in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,9 +402,11 @@
 		};
 		E90A0BE226EA51CE00823BE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ADF0233DE46A310FCA2FE506 /* Pods-gRPCDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9G2HZX7LQ9;
 				INFOPLIST_FILE = gRPCDemo/Info.plist;
@@ -295,6 +416,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.johnhao.gRPCDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "gRPCDemo/gRPCDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -302,9 +425,11 @@
 		};
 		E90A0BE326EA51CE00823BE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1249ADE46B17B09894ED78DE /* Pods-gRPCDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9G2HZX7LQ9;
 				INFOPLIST_FILE = gRPCDemo/Info.plist;
@@ -314,6 +439,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.johnhao.gRPCDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "gRPCDemo/gRPCDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
