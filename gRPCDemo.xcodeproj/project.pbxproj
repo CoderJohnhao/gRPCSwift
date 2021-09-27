@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B931FA694A626D01031FDE78 /* Pods_gRPCDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4797A73B297D78517262A325 /* Pods_gRPCDemo.framework */; };
 		E90A0BD126EA51CD00823BE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BD026EA51CD00823BE9 /* AppDelegate.swift */; };
-		E90A0BD526EA51CD00823BE9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A0BD426EA51CD00823BE9 /* ViewController.swift */; };
 		E90A0BD826EA51CD00823BE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90A0BD626EA51CD00823BE9 /* Main.storyboard */; };
 		E90A0BDA26EA51CE00823BE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E90A0BD926EA51CE00823BE9 /* Assets.xcassets */; };
 		E90A0BDD26EA51CE00823BE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90A0BDB26EA51CE00823BE9 /* LaunchScreen.storyboard */; };
@@ -30,7 +29,6 @@
 		ADF0233DE46A310FCA2FE506 /* Pods-gRPCDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gRPCDemo.debug.xcconfig"; path = "Target Support Files/Pods-gRPCDemo/Pods-gRPCDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		E90A0BCD26EA51CD00823BE9 /* gRPCDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gRPCDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90A0BD026EA51CD00823BE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E90A0BD426EA51CD00823BE9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E90A0BD726EA51CD00823BE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E90A0BD926EA51CE00823BE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E90A0BDC26EA51CE00823BE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 			children = (
 				E90A0BD026EA51CD00823BE9 /* AppDelegate.swift */,
 				E92AA46827004DF600C4298F /* Controllers */,
-				E90A0BD426EA51CD00823BE9 /* ViewController.swift */,
 				E90A0BEB26EA5CBA00823BE9 /* Server.swift */,
 				E92AA46D2700680800C4298F /* Interceptors.swift */,
 				E90A0BE426EA58D900823BE9 /* proto */,
@@ -253,7 +250,6 @@
 				E92AA46E2700680800C4298F /* Interceptors.swift in Sources */,
 				E92AA467270026E100C4298F /* HomeVC.swift in Sources */,
 				E90A0BEA26EA5B6700823BE9 /* helloworld.pb.swift in Sources */,
-				E90A0BD526EA51CD00823BE9 /* ViewController.swift in Sources */,
 				E92AA46A2700506D00C4298F /* SimpleVC.swift in Sources */,
 				E90A0BD126EA51CD00823BE9 /* AppDelegate.swift in Sources */,
 				E90A0BE926EA5B6700823BE9 /* helloworld.grpc.swift in Sources */,
