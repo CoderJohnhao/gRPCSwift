@@ -86,18 +86,21 @@ class SimpleVC: UIViewController {
             .insecure(group: group) // 事件循环组
             .withKeepalive(keepalive) // 保持长连接
             .withBackgroundActivityLogger(logger)
-            .connect(host: host, port: port)
+            .connect(host: "localhost", port: 50051)
         
         // 创建一个链接
-        let client = Helloworld_HelloServerClient(channel: channel, interceptors: ExampleClientInterceptorFactory())
+        let client = Routeguide_RouteGuideClient(channel: channel)
         // 请求
-        let request = Helloworld_HelloRequest.with { $0.name = text }
+        let request = Routeguide_Point.with {
+            $0.latitude = 408122808
+            $0.longitude = -743999179
+        }
         // 发起请求
-        let call = client.hello(request)
+        let call = client.getFeature(request)
         call.response.whenCompleteBlocking(onto: .main) { [weak self] result in
             do {
                 let response = try result.get()
-                self?.textLabel.text = response.result
+                self?.textLabel.text = response.name
             } catch {
                 self?.textLabel.text = error.localizedDescription
             }

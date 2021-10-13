@@ -11,7 +11,7 @@ import SnapKit
 
 class HomeVC: UIViewController {
     
-    var dataArr: [String] = ["A Simple Example", "上传图片"]
+    var dataArr: [String] = ["A Simple Example", "客服端流式", "服务端流式", "双向多次应答" ,"上传图片"]
     
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -54,6 +54,15 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             let vc = SimpleVC()
             self.navigationController?.pushViewController(vc, animated: true)
         case 1:
+            let vc = ClientStreamVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 2:
+            let vc = ServerStreamVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = BidirectionalStreaminVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 4:
             let vc = UploadImageVC()
             self.navigationController?.pushViewController(vc, animated: true)
         default:

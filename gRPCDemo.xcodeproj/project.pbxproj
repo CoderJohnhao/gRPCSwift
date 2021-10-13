@@ -21,6 +21,16 @@
 		E92AA46C27005C0E00C4298F /* UploadImageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AA46B27005C0E00C4298F /* UploadImageVC.swift */; };
 		E92AA46E2700680800C4298F /* Interceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92AA46D2700680800C4298F /* Interceptors.swift */; };
 		E933523826F1D89000E0E060 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = E933523726F1D89000E0E060 /* 1.png */; };
+		E94FB15B27030BDF0004592F /* feature.proto in Resources */ = {isa = PBXBuildFile; fileRef = E94FB15A27030BDF0004592F /* feature.proto */; };
+		E94FB15E270311010004592F /* feature.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB15C270311010004592F /* feature.grpc.swift */; };
+		E94FB15F270311010004592F /* feature.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB15D270311010004592F /* feature.pb.swift */; };
+		E94FB16227031DEF0004592F /* ServerStreamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB16027031DEF0004592F /* ServerStreamVC.swift */; };
+		E94FB16327031DEF0004592F /* ServerStreamVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E94FB16127031DEF0004592F /* ServerStreamVC.xib */; };
+		E94FB16627031E250004592F /* ClientStreamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB16427031E250004592F /* ClientStreamVC.swift */; };
+		E94FB16727031E250004592F /* ClientStreamVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E94FB16527031E250004592F /* ClientStreamVC.xib */; };
+		E94FB16A27031E380004592F /* BidirectionalStreaminVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB16827031E380004592F /* BidirectionalStreaminVC.swift */; };
+		E94FB16B27031E380004592F /* BidirectionalStreaminVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = E94FB16927031E380004592F /* BidirectionalStreaminVC.xib */; };
+		E985A7CB270408FE000AC593 /* route_guide_db.json in Resources */ = {isa = PBXBuildFile; fileRef = E985A7CA270408FE000AC593 /* route_guide_db.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +52,16 @@
 		E92AA46B27005C0E00C4298F /* UploadImageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageVC.swift; sourceTree = "<group>"; };
 		E92AA46D2700680800C4298F /* Interceptors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptors.swift; sourceTree = "<group>"; };
 		E933523726F1D89000E0E060 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		E94FB15A27030BDF0004592F /* feature.proto */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.protobuf; path = feature.proto; sourceTree = "<group>"; };
+		E94FB15C270311010004592F /* feature.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feature.grpc.swift; sourceTree = "<group>"; };
+		E94FB15D270311010004592F /* feature.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feature.pb.swift; sourceTree = "<group>"; };
+		E94FB16027031DEF0004592F /* ServerStreamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStreamVC.swift; sourceTree = "<group>"; };
+		E94FB16127031DEF0004592F /* ServerStreamVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerStreamVC.xib; sourceTree = "<group>"; };
+		E94FB16427031E250004592F /* ClientStreamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStreamVC.swift; sourceTree = "<group>"; };
+		E94FB16527031E250004592F /* ClientStreamVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ClientStreamVC.xib; sourceTree = "<group>"; };
+		E94FB16827031E380004592F /* BidirectionalStreaminVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BidirectionalStreaminVC.swift; sourceTree = "<group>"; };
+		E94FB16927031E380004592F /* BidirectionalStreaminVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BidirectionalStreaminVC.xib; sourceTree = "<group>"; };
+		E985A7CA270408FE000AC593 /* route_guide_db.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = route_guide_db.json; sourceTree = "<group>"; };
 		E9BEED8926F2E3A4004DAB2D /* gRPCDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "gRPCDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,6 +136,10 @@
 				E90A0BE526EA58F200823BE9 /* helloworld.proto */,
 				E90A0BE726EA5B6700823BE9 /* helloworld.grpc.swift */,
 				E90A0BE826EA5B6700823BE9 /* helloworld.pb.swift */,
+				E94FB15A27030BDF0004592F /* feature.proto */,
+				E94FB15C270311010004592F /* feature.grpc.swift */,
+				E94FB15D270311010004592F /* feature.pb.swift */,
+				E985A7CA270408FE000AC593 /* route_guide_db.json */,
 			);
 			path = proto;
 			sourceTree = "<group>";
@@ -125,6 +149,12 @@
 			children = (
 				E92AA466270026E100C4298F /* HomeVC.swift */,
 				E92AA4692700506D00C4298F /* SimpleVC.swift */,
+				E94FB16027031DEF0004592F /* ServerStreamVC.swift */,
+				E94FB16127031DEF0004592F /* ServerStreamVC.xib */,
+				E94FB16427031E250004592F /* ClientStreamVC.swift */,
+				E94FB16527031E250004592F /* ClientStreamVC.xib */,
+				E94FB16827031E380004592F /* BidirectionalStreaminVC.swift */,
+				E94FB16927031E380004592F /* BidirectionalStreaminVC.xib */,
 				E92AA46B27005C0E00C4298F /* UploadImageVC.swift */,
 			);
 			path = Controllers;
@@ -191,9 +221,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E90A0BDD26EA51CE00823BE9 /* LaunchScreen.storyboard in Resources */,
+				E94FB16B27031E380004592F /* BidirectionalStreaminVC.xib in Resources */,
 				E90A0BDA26EA51CE00823BE9 /* Assets.xcassets in Resources */,
 				E90A0BD826EA51CD00823BE9 /* Main.storyboard in Resources */,
+				E94FB16327031DEF0004592F /* ServerStreamVC.xib in Resources */,
+				E94FB16727031E250004592F /* ClientStreamVC.xib in Resources */,
+				E94FB15B27030BDF0004592F /* feature.proto in Resources */,
 				E933523826F1D89000E0E060 /* 1.png in Resources */,
+				E985A7CB270408FE000AC593 /* route_guide_db.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,15 +281,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E94FB15E270311010004592F /* feature.grpc.swift in Sources */,
 				E90A0BEC26EA5CBA00823BE9 /* Server.swift in Sources */,
+				E94FB15F270311010004592F /* feature.pb.swift in Sources */,
 				E92AA46E2700680800C4298F /* Interceptors.swift in Sources */,
 				E92AA467270026E100C4298F /* HomeVC.swift in Sources */,
+				E94FB16A27031E380004592F /* BidirectionalStreaminVC.swift in Sources */,
 				E90A0BEA26EA5B6700823BE9 /* helloworld.pb.swift in Sources */,
+				E94FB16227031DEF0004592F /* ServerStreamVC.swift in Sources */,
 				E92AA46A2700506D00C4298F /* SimpleVC.swift in Sources */,
 				E90A0BD126EA51CD00823BE9 /* AppDelegate.swift in Sources */,
 				E90A0BE926EA5B6700823BE9 /* helloworld.grpc.swift in Sources */,
 				E92AA46C27005C0E00C4298F /* UploadImageVC.swift in Sources */,
 				E90A0BE626EA58F200823BE9 /* helloworld.proto in Sources */,
+				E94FB16627031E250004592F /* ClientStreamVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

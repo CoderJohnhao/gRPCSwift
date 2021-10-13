@@ -1,12 +1,103 @@
-## 1、gRPC
+## 1、gRPC（[官网]([gRPC](https://grpc.io/))）
 
-​	gRPC 是一种现代开源高性能远程过程调用 (RPC) 框架，可以在任何环境中运行。 它可以通过对负载平衡、跟踪、健康检查和身份验证的可插拔支持，有效地连接数据中心内和数据中心之间的服务。 它还适用于分布式计算的最后一英里，将设备、移动应用程序和浏览器连接到后端服务。 支持Go、C++、Java、Python、C#、Dart、Kotlin、Node、OC、Swift、PHP、Ruby等编程语言。	
+##### 1、gRPC简介
 
-​	在 gRPC 中，客户端应用程序可以直接调用不同机器上的服务器应用程序上的方法，就像它是本地对象一样，使您可以更轻松地创建分布式应用程序和服务。与许多 RPC 系统一样，gRPC 基于定义服务的思想，指定可以通过参数和返回类型远程调用的方法。在服务器端，服务器实现了这个接口并运行一个 gRPC 服务器来处理客户端调用。在客户端，客户端有一个存根（在某些语言中简称为客户端），它提供与服务器相同的方法。
+gRPC 是 谷歌开源的一种高性能远程过程调用 (RPC)框架，所谓的RPC(Remote Procedure Call 远程过程调用)框架实际是提供了一套机制，使得应用程序之间可以通信，而且也遵从**server/client**模型，使用的时候客户端调用server端接口就像是调用本地函数一样，如图下是RPC结构图：
 
 ![https://grpc.io/img/landing-2.svg](https://grpc.io/img/landing-2.svg)
 
-默认情况下，gRPC 使用protocol buffer，是 Google 语言中立、平台中立、可扩展序列化结构化数据的可扩展机制一种XML，但是更小、更快、更简单。您可以一次定义数据的结构化方式，然后您可以使用特殊生成的源代码轻松地使用各种语言、各种数据流中写入和读取结构化数据。
+##### 2、Protocol Buffers
+
+默认情况下，gRPC 使用[Protocol Buffers]([Language Guide  | Protocol Buffers  | Google Developers](https://developers.google.com/protocol-buffers/docs/overview))，Protocol Buffers是一个灵活的、高效的、自动化的用于对结构化数据进行序列化的协议，与XML相比，Protocol Buffers序列化后的码流更小、速度更快、操作更简单。在一些高性能且对响应速度有要求的数据传输场景非常适用。
+
+```protobuf
+syntax="proto3";
+
+message HelloRequest {
+  string greeting = 1;
+}
+
+message HelloResponse {
+  string reply = 1;
+}
+
+service HelloService {
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+```
+
+Protoco Buffers在gRPC的框架中主要有三个作用：
+
+- 定义数据结构
+- 定义服务接口
+- 通过序列化和反序列化，提升传输效率
+
+使用XML、JSON进行数据编译时，数据文本格式更容易阅读，但进行数据交换时，设备就需要耗费大量的CPU在I/O动作上，自然会影响整个传输速率。Protocol Buffers不像前者，它会将字符串进行序列化后再二进制的形式进行传输。
+
+在编码方面Protocol Buffers对比JSON、XML的优点：
+
+- 简单，体积小，数据描述文件大小只有1/10至1/3；
+- 传输和解析的速率快，相比XML等，解析速度提升20倍甚至更高；
+- 可编译性强。
+
+##### 3、基于HTTP/2
+
+由于gRPC基于HTTP 2.0标准设计，带来了更多强大功能，如多路复用、二进制帧、头部压缩、推送机制。这些功能给设备带来重大益处，如节省带宽、降低TCP连接次数、节省CPU使用等。gRPC既能够在客户端应用，也能够在服务器端应用，从而以透明的方式实现两端的通信和简化通信系统的构建。
+
+HTTP 2.0的新特性：
+
+- 双向流、多路复用
+
+  在HTTP 1.X协议中，客户端在同一时间访问同一域名的请求数量是有限制的，当超过阈值时请求会被阻断，但是这种情况在HTTP 2.0中将被忽略。由于HTTP 1.X传输的是纯文本数据，传输体积较大，而HTTP 2.0传输的基本单元为帧，每个帧都包含消息，并且由于HTTP 2.0允许同时通过一条连接发起多个“请求-响应”消息，无需建立多个TCP链接的同时实现多条流并行，提高吞吐性能，并且在一个连接内对多个消息进行优先级的管理和流控。
+
+- 二进制帧
+
+  相对于HTTP 1.X的纯文本传输来，HTTP 2.0传输的是二进制数据，与Protocol Buffers相辅相成。使得传输数据体积小、负载低，保持更加紧凑和高效。
+
+- 头部压缩
+
+  因为HTTP是无状态协议，对于业务的处理没有记忆能力，每一次请求都需要携带设备的所有细节，特别是在头部都会包含大量的重复数据，对于设备来说就是在不断地做无意义的重复性工作。HTTP 2.0中使用“头表”来跟踪之前发送的数据，对于相同的数据将不再使用重复请求和发送，进而减少数据的体积。
+
+  ![](https://pics3.baidu.com/feed/d439b6003af33a87a23f99fd505dc03c5243b589.jpeg?token=3c7fc45b9bcac3492c61ffc443814a5d&s=C26BB7529C78748A54476C54030080FE)
+
+##### 4、gRPC通信方式
+
+像许多RPC系统一样，gRPC也是围绕着定义服务的理念，指定可以远程调用的方法及其参数和返回类型。默认情况下，gRPC使用Protocol Buffers作为接口定义语言（IDL）来描述服务接口和有效载荷消息的结构。如果需要的话，也可以使用其他的替代品。
+
+gRPC 允许您定义四种服务方法:
+
+1、Unary RPC
+
+单一的RPC，客户端向服务器发送单个请求并返回单个响应，就像普通的函数调用一样。	
+
+```protobuf
+rpc SayHello(HelloRequest) returns (HelloResponse);
+```
+
+2、Server streaming RPC
+
+服务器流式 RPC，其中客户端向服务器发送请求并获取流以读取一系列消息。客户端从返回的流中读取，直到没有更多消息。 gRPC 保证单个 RPC 调用中的消息排序。
+
+```protobuf
+rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
+```
+
+3、Client streaming RPC
+
+客户端流式 RPC，其中客户端写入一系列消息并将它们发送到服务器，再次使用提供的流。一旦客户端完成写入消息，它等待服务器读取它们并返回其响应。 gRPC 再次保证单个 RPC 调用中的消息排序。
+
+```protobuf
+rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);
+```
+
+4、Bidirectional streaming RPC
+
+双向流式 RPC，其中双方使用读写流发送一系列消息。这两个流独立运行，因此客户端和服务器可以按照他们喜欢的任何顺序进行读写：例如，服务器可以在写入响应之前等待接收所有客户端消息，或者它可以交替读取消息然后写入消息，或其他一些读取和写入的组合。保留每个流中消息的顺序。
+
+```protobuf
+rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
+```
 
 ## 2、安装proto/grpc插件
 
@@ -104,6 +195,13 @@ pod '<Podspec file name>', :path => 'podspec文件路径'
 // 再执行 pod install
 ```
 
+```ruby
+// 终端生成pbrpc和pbobjc代码文件
+protoc --plugin=protoc-gen-grpc=编译器插件路径/grpc_objective_c_plugin --objc_out=生成pbobjc文件夹路径 --grpc_out=生成pbrpc文件夹路径 -I 存放.proto文件夹路径 -I .proto文件路径
+```
+
+
+
 ##### 3、服务端使用python语言，python安装protoc/grpc插件
 
 ```
@@ -111,18 +209,7 @@ $python -m pip install grpcio
 $python -m pip install grpcio-tools googleapis-common-protos
 ```
 
-## 3、生成Protobuf协议对应编程语言文件
-
-生成终端命令
-
-```swift
-// swift 
-protoc (.proto文件路径) --swift_out=.(生成文件的路径，如果生成在当前文件目录之间".") --grpc-swift_out=Client=true,Server=false:.(生成文件的路径，如果生成在当前文件目录之间".")
-// oc
-protoc --proto_path=. --objc_out=. 文件.proto
-```
-
-## 4、proto语法
+## 3、proto语法
 
 使用的proto语法的文本文件, 用来定义数据格式。
 
@@ -318,9 +405,16 @@ service HelloServer {
 }
 ```
 
-## 5、Client-Swift实现
+## 4、Client-Swift实现
 
-用.proto 文件来创建GRPC服务， 用Protobuf消息类型定义方法参数和返回类型，格式如下。
+swift需要使用cocoapods导入两个框架
+
+```ruby
+pod 'gRPC-Swift'
+pod 'gRPC-Swift-Plugins' // 主要是获取protoc-gen-swift/protoc-gen-grpc-swift编译器插件，后期添加/usr/local/bin后可以不用
+```
+
+用.proto 文件来创建GRPC服务， 用Protocol Buffer消息类型定义方法参数和返回类型，格式如下。
 
 ```protobuf
 syntax = "proto3";
@@ -403,11 +497,33 @@ call.response.whenCompleteBlocking(onto: .main) { [weak self] result in
 
 
 
-## 6、Client-OC实现
+## 5、Client-OC实现
 
 demo链接[Github](https://github.com/CoderJohnhao/gRPC-OC.git)
 
-## 7、Server-Python实现
+```objective-c
+[GRPCProtoCall useInsecureConnectionsForHost:host_port];
+HelloServer *server = [[HelloServer alloc] initWithHost: host_port];
+HelloRequest *reqeust = [HelloRequest message];
+reqeust.name = @"EASI";
+[server helloWithRequest:reqeust handler:^(HelloResponse * _Nullable response, NSError * _Nullable error) {
+    if (response) {
+        NSLog(@"response: %@", response.result);
+    } else {
+        NSLog(@"error: %@", error.localizedDescription);
+    }
+}];
+```
+
+
+
+## 6、Server-Python实现
 
 demo链接[Github](https://github.com/CoderJohnhao/grpcdemo.git)
+
+
+
+
+
+参照：[gRPC官网]([Core concepts, architecture and lifecycle | gRPC](https://grpc.io/docs/what-is-grpc/core-concepts/))、[Protocol Buffers](https://developers.google.com/protocol-buffers/docs/overview)、[grpc地址Github](https://github.com/grpc/grpc.git)、[gRPC-OC]([grpc/src/objective-c at master · grpc/grpc (github.com)](https://github.com/grpc/grpc/tree/master/src/objective-c))、[gRPC-Swift](https://github.com/grpc/grpc-swift.git)
 

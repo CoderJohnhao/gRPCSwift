@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package routeguide;
+
+service RouteGuide {
+    // 一个简单的RPC。
+    //
+    // 在一个给定的位置上获得特征。
+    //
+    // 如果在给定的位置上没有任何特征，则返回一个空名称的特征。
+    // 如果在给定的位置上没有特征，则返回一个空名称的特征。
+    rpc GetFeature(Point) returns (Feature) {}
+
+    // 一个服务器到客户的流式RPC。
+    //
+    // 获取给定矩形内的可用特征。 结果是
+    // 而不是一次性返回（例如，在一个带有重复字段的响应消息中）。
+    // 重复的字段），因为矩形可能覆盖很大的区域并包含大量的特征。
+    // 巨大数量的特征。
+    rpc ListFeatures(Rectangle) returns (stream Feature) {}
+
+    // 一个客户端到服务器的流式RPC。
+    //
+    // 接受一个正在穿越的路由上的点流，在穿越完成后返回一个
+    // 遍历完成后返回RouteSummary。
+    rpc RecordRoute(stream Point) returns (RouteSummary) {}
+
+    // 一个双向的流媒体RPC。
+    //
+    // 接受在路由被遍历时发送的RouteNotes流。
+    // 在接收其他RouteNotes（例如来自其他用户的）时。
+    rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
+}
+
+// 点以E7表示的纬度-经度对来表示
+//（度数乘以10**7，并四舍五入到最近的整数）。
+// 纬度应在+/-90度范围内，经度应在+/-180度范围内（含）。
+// 范围为+/-180度（包括）。
+message Point {
+  int32 latitude = 1;
+  int32 longitude = 2;
+}
+
+// 一个经纬度矩形，表示为两个对角线相对的点 "lo "和 "hi"。
+message Rectangle {
+    // 矩形的一个角。
+    Point lo = 1;
+
+    // 矩形的另一个角。
+    Point hi = 2;
+}
+
+// 地点命名和坐标点
+//
+// 如果一个地点不能被命名，那么这个名称就是空的。
+message Feature {
+    // 该特征的名称。
+    string name = 1;
+
+    // 检测到特征的点。
+    Point location = 2;
+}
+
+// 一条路径是在一个给定的点上发送的消息。
+message RouteNote {
+    // 发出信息的地点。
+    Point location = 1;
+
+    // 要发送的信息。
+    string message = 2;
+}
+
+// 响应记录路径rpc，收到路径描述。
+//
+// 它包含收到的单个点的数量、检测到的特征的数量以及作为累积总和的总距离。
+// 检测到的特征，以及作为每个点之间距离的累积总和的总距离。
+// 每个点之间的距离。
+message RouteSummary {
+    // 收到坐标点个数
+    int32 point_count = 1;
+
+    // 地点个数
+    int32 feature_count = 2;
+
+    // 覆盖的距离，以米为单位。
+    int32 distance = 3;
+
+    // 遍历的持续时间，以秒为单位。
+    int32 elapsed_time = 4;
+}
+
