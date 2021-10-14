@@ -1,0 +1,6 @@
+framework module Pods_gRPCDemo {
+  umbrella header "Pods-gRPCDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}
