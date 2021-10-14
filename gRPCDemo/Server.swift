@@ -60,9 +60,6 @@ final class Server: NSObject {
         let request = Helloworld_HelloRequest.with { $0 = test }
         // 发起请求
         let call = client.hello(request)
-        call.status.whenFailure { error in
-            
-        }
         call.response.whenComplete { result in
             do {
                 let response = try result.get()
