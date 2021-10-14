@@ -18,7 +18,6 @@ typealias ErrorBlock = (Error) -> Void
 typealias CompleteBlock = () -> ()
 typealias SuccessBlock<T> = (T) -> Void
 
-
 /// 服务
 final class Server: NSObject {
     // 信道
