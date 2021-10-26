@@ -523,7 +523,5 @@ demo链接[Github](https://github.com/CoderJohnhao/grpcdemo.git)
 
 
 
-
-
-参照：[gRPC官网]([Core concepts, architecture and lifecycle | gRPC](https://grpc.io/docs/what-is-grpc/core-concepts/))、[Protocol Buffers](https://developers.google.com/protocol-buffers/docs/overview)、[grpc地址Github](https://github.com/grpc/grpc.git)、[gRPC-OC]([grpc/src/objective-c at master · grpc/grpc (github.com)](https://github.com/grpc/grpc/tree/master/src/objective-c))、[gRPC-Swift](https://github.com/grpc/grpc-swift.git)
+资料参照：[gRPC官网]([Core concepts, architecture and lifecycle | gRPC](https://grpc.io/docs/what-is-grpc/core-concepts/))、[Protocol Buffers](https://developers.google.com/protocol-buffers/docs/overview)、[grpc地址Github](https://github.com/grpc/grpc.git)、[gRPC-OC]([grpc/src/objective-c at master · grpc/grpc (github.com)](https://github.com/grpc/grpc/tree/master/src/objective-c))、[gRPC-Swift](https://github.com/grpc/grpc-swift.git)
 

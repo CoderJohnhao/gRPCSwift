@@ -23,7 +23,8 @@ internal struct ClientTransportFactory<Request, Response> {
   /// The underlying transport factory.
   private var factory: Factory<Request, Response>
 
-  private enum Factory<Request, Response> {
+  @usableFromInline
+  internal enum Factory<Request, Response> {
     case http2(HTTP2ClientTransportFactory<Request, Response>)
     case fake(FakeClientTransportFactory<Request, Response>)
   }
@@ -43,15 +44,16 @@ internal struct ClientTransportFactory<Request, Response> {
   ///   - scheme: The value of the ":scheme" pseudo header.
   ///   - errorDelegate: A client error delegate.
   /// - Returns: A factory for making and configuring HTTP/2 based transport.
+  @usableFromInline
   internal static func http2<Request: SwiftProtobuf.Message, Response: SwiftProtobuf.Message>(
-    multiplexer: EventLoopFuture<HTTP2StreamMultiplexer>,
+    channel: EventLoopFuture<Channel>,
     authority: String,
     scheme: String,
     maximumReceiveMessageLength: Int,
     errorDelegate: ClientErrorDelegate?
   ) -> ClientTransportFactory<Request, Response> {
     let http2 = HTTP2ClientTransportFactory<Request, Response>(
-      multiplexer: multiplexer,
+      streamChannel: channel,
       scheme: scheme,
       authority: authority,
       serializer: ProtobufSerializer(),
@@ -69,15 +71,16 @@ internal struct ClientTransportFactory<Request, Response> {
   ///   - scheme: The value of the ":scheme" pseudo header.
   ///   - errorDelegate: A client error delegate.
   /// - Returns: A factory for making and configuring HTTP/2 based transport.
+  @usableFromInline
   internal static func http2<Request: GRPCPayload, Response: GRPCPayload>(
-    multiplexer: EventLoopFuture<HTTP2StreamMultiplexer>,
+    channel: EventLoopFuture<Channel>,
     authority: String,
     scheme: String,
     maximumReceiveMessageLength: Int,
     errorDelegate: ClientErrorDelegate?
   ) -> ClientTransportFactory<Request, Response> {
     let http2 = HTTP2ClientTransportFactory<Request, Response>(
-      multiplexer: multiplexer,
+      streamChannel: channel,
       scheme: scheme,
       authority: authority,
       serializer: AnySerializer(wrapping: GRPCPayloadSerializer()),
@@ -91,6 +94,7 @@ internal struct ClientTransportFactory<Request, Response> {
   /// Make a factory for 'fake' transport.
   /// - Parameter fakeResponse: The fake response stream.
   /// - Returns: A factory for making and configuring fake transport.
+  @usableFromInline
   internal static func fake<Request: SwiftProtobuf.Message, Response: SwiftProtobuf.Message>(
     _ fakeResponse: _FakeResponseStream<Request, Response>?
   ) -> ClientTransportFactory<Request, Response> {
@@ -107,6 +111,7 @@ internal struct ClientTransportFactory<Request, Response> {
   /// Make a factory for 'fake' transport.
   /// - Parameter fakeResponse: The fake response stream.
   /// - Returns: A factory for making and configuring fake transport.
+  @usableFromInline
   internal static func fake<Request: GRPCPayload, Response: GRPCPayload>(
     _ fakeResponse: _FakeResponseStream<Request, Response>?
   ) -> ClientTransportFactory<Request, Response> {
@@ -167,9 +172,10 @@ internal struct ClientTransportFactory<Request, Response> {
   }
 }
 
-private struct HTTP2ClientTransportFactory<Request, Response> {
+@usableFromInline
+internal struct HTTP2ClientTransportFactory<Request, Response> {
   /// The multiplexer providing an HTTP/2 stream for the call.
-  private var multiplexer: EventLoopFuture<HTTP2StreamMultiplexer>
+  private var streamChannel: EventLoopFuture<Channel>
 
   /// The ":authority" pseudo-header.
   private var authority: String
@@ -189,8 +195,9 @@ private struct HTTP2ClientTransportFactory<Request, Response> {
   /// Maximum allowed length of a received message.
   private let maximumReceiveMessageLength: Int
 
-  fileprivate init<Serializer: MessageSerializer, Deserializer: MessageDeserializer>(
-    multiplexer: EventLoopFuture<HTTP2StreamMultiplexer>,
+  @usableFromInline
+  internal init<Serializer: MessageSerializer, Deserializer: MessageDeserializer>(
+    streamChannel: EventLoopFuture<Channel>,
     scheme: String,
     authority: String,
     serializer: Serializer,
@@ -198,7 +205,7 @@ private struct HTTP2ClientTransportFactory<Request, Response> {
     maximumReceiveMessageLength: Int,
     errorDelegate: ClientErrorDelegate?
   ) where Serializer.Input == Request, Deserializer.Output == Response {
-    self.multiplexer = multiplexer
+    self.streamChannel = streamChannel
     self.scheme = scheme
     self.authority = authority
     self.serializer = AnySerializer(wrapping: serializer)
@@ -230,31 +237,20 @@ private struct HTTP2ClientTransportFactory<Request, Response> {
 
   fileprivate func configure<Request, Response>(_ transport: ClientTransport<Request, Response>) {
     transport.configure { _ in
-      self.multiplexer.flatMap { multiplexer in
-        let streamPromise = self.multiplexer.eventLoop.makePromise(of: Channel.self)
+      self.streamChannel.flatMapThrowing { channel in
+        // This initializer will always occur on the appropriate event loop, sync operations are
+        // fine here.
+        let syncOperations = channel.pipeline.syncOperations
 
-        multiplexer.createStreamChannel(promise: streamPromise) { streamChannel in
-          // This initializer will always occur on the appropriate event loop, sync operations are
-          // fine here.
-          let syncOperations = streamChannel.pipeline.syncOperations
-
-          do {
-            let clientHandler = GRPCClientChannelHandler(
-              callType: transport.callDetails.type,
-              maximumReceiveMessageLength: self.maximumReceiveMessageLength,
-              logger: transport.logger
-            )
-            try syncOperations.addHandler(clientHandler)
-            try syncOperations.addHandler(transport)
-          } catch {
-            return streamChannel.eventLoop.makeFailedFuture(error)
-          }
-
-          return streamChannel.eventLoop.makeSucceededVoidFuture()
+        do {
+          let clientHandler = GRPCClientChannelHandler(
+            callType: transport.callDetails.type,
+            maximumReceiveMessageLength: self.maximumReceiveMessageLength,
+            logger: transport.logger
+          )
+          try syncOperations.addHandler(clientHandler)
+          try syncOperations.addHandler(transport)
         }
-
-        // We don't need the stream, but we do need to know it was correctly configured.
-        return streamPromise.futureResult.map { _ in }
       }
     }
   }
@@ -274,7 +270,8 @@ private struct HTTP2ClientTransportFactory<Request, Response> {
   }
 }
 
-private struct FakeClientTransportFactory<Request, Response> {
+@usableFromInline
+internal struct FakeClientTransportFactory<Request, Response> {
   /// The fake response stream for the call. This can be `nil` if the user did not correctly
   /// configure their client. The result will be a transport which immediately fails.
   private var fakeResponseStream: _FakeResponseStream<Request, Response>?
@@ -288,7 +285,8 @@ private struct FakeClientTransportFactory<Request, Response> {
   /// A codec for deserializing requests and serializing responses.
   private let codec: ChannelHandler
 
-  fileprivate init<
+  @usableFromInline
+  internal init<
     RequestSerializer: MessageSerializer,
     RequestDeserializer: MessageDeserializer,
     ResponseSerializer: MessageSerializer,

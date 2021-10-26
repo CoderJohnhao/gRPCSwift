@@ -9,6 +9,7 @@ import GRPC
 import NIO
 import Logging
 import Foundation
+import NIOSSL
 
 let host = "0.0.0.0"
 let port = 5000
@@ -21,8 +22,10 @@ typealias SuccessBlock<T> = (T) -> Void
 
 /// 服务
 final class Server: NSObject {
+    static let shared = Server()
+    
     // 信道
-    var channel: ClientConnection!
+    private var channel: ClientConnection!
     
     override init() {
         super.init()
@@ -37,13 +40,19 @@ final class Server: NSObject {
         logger.logLevel = .debug
         
         // 信道
+        
         self.channel = ClientConnection
-            .insecure(group: group) // 事件循环组
-            .withKeepalive(keepalive) // 保持长连接
+            .usingTLSBackedByNIOSSL(on: group)
+            .withTLS(privateKey:  try! NIOSSLPrivateKey(bytes: Array("".utf8), format: .pem))
+            .withTLS(certificateChain: [try! NIOSSLCertificate(bytes: Array("".utf8), format: .pem)])
+//            .insecure(group: group) // 事件循环组
+            .withKeepalive(keepalive) // 保持连接
             .withBackgroundActivityLogger(logger)
             .withConnectivityStateDelegate(self, executingOn: .global())
             .withErrorDelegate(self)
             .connect(host: host, port: port)
+
+        
     }
     
     
@@ -55,11 +64,14 @@ final class Server: NSObject {
     ///   - complte: 完成回调
     func request(_ test: Helloworld_HelloRequest, success: SuccessBlock<String>?=nil, failed: ErrorBlock?=nil, complte: CompleteBlock?=nil) {
         // 创建一个链接
-        let client = Helloworld_HelloServerClient(channel: channel)
+        let client = Helloworld_HelloServerClient(channel: channel, interceptors: ExampleClientInterceptorFactory())
         // 请求
         let request = Helloworld_HelloRequest.with { $0 = test }
+    
+        var options = CallOptions()
+        options.customMetadata.add(name: "test", value: "test1")
         // 发起请求
-        let call = client.hello(request)
+        let call = client.hello(request, callOptions: options)
         call.response.whenComplete { result in
             do {
                 let response = try result.get()
@@ -124,6 +136,26 @@ final class Server: NSObject {
             failed?(error)
         }
         complte?()
+    }
+    
+    @available(iOS 15.0.0, *)
+    func upLoadData(_ name: String, data: Data, type: String) async -> (String?, Error?) {
+        // 创建一个链接
+        let client = Helloworld_HelloServerClient(channel: channel)
+        // 请求
+        let request = Helloworld_UploadRequest.with {
+            $0.data = data
+            $0.type = type
+            $0.name = name
+        }
+        // 发起请求
+        let call = client.upload(request)
+        do {
+            let response = try call.response.wait()
+            return (response.result, nil)
+        } catch {
+            return ("", error)
+        }
     }
     
     deinit {

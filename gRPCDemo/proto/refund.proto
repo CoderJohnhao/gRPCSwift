@@ -1,0 +1,189 @@
+/***
+退款接口
+ */
+syntax = "proto3";
+option go_package = "github.com/infinitasx/easi-order-service/proto/order/v1";
+
+package order.v1;
+
+service RefundService{
+
+  // 全额退款
+  rpc CreateFull(FullRefundApiCreate) returns (Refund) {}
+
+  // 部分退款
+  rpc CreatePart(PartRefundApiCreate) returns (Refund) {}
+
+  // 退款id/订单id获取退款信息
+  rpc List(RefundApiList) returns (RefundList) {}
+
+  // 退款审核接口
+  rpc CreateAudit(AuditApiCreate) returns (Audit){}
+
+  // 获取退款原因列表
+  rpc ReasonList(ReasonApi) returns (Reasons){}
+}
+
+message ReasonApi{
+  string type = 1;//退款原因类型：customer：顾客原因；admin：管理员退款；system：系统原因
+}
+
+message Reasons{
+  repeated Reason reason = 1;
+}
+
+message Reason{
+  int32 reason_id = 1;//退款id
+  string reason = 2;//退款原因
+  string reason_en = 3;//英文退款原因
+  string reason_ja = 4;//日文退款原因
+}
+
+message AuditApiCreate {
+  int64 order_refund_id = 1;//退款id
+  string audit_status = 2;//审核状态 审核状态：auditing-审核中，audit_fail-审核失败，audit_success-审核成功
+  string addition_data = 3;//附加信息
+}
+
+message Audit{
+
+}
+
+message RefundApiList{
+  repeated int64 order_id = 1;// 通过主订单id获取退款详情
+  repeated int64 order_refund_id = 2;// 通过退款id获取退款详情
+}
+
+// 退款订单响应参数，列表。
+message RefundList{
+  repeated Refund refund_list = 1;// 退款列表
+}
+
+// 部分退款请求参数
+message PartRefundApiCreate{
+  int64 order_id = 1; // 主订单ID
+  repeated PartRefundSubOrderApiCreate sub_order = 2;//子订单信息
+  int64 order_refund_id = 3;//退款id，为空时由订单系统生成
+  string remark = 5; // 退款备注
+  repeated int32 reason_id = 6;// 退款原因ID 需要退款原因表
+  string addition_data = 7;//附加信息
+}
+
+message PartRefundSubOrderApiCreate{
+  int64 sub_order_id = 2;//子订单ID
+  repeated int64 order_goods_id = 4; // 商品项ID  需要校验这些商品项是否为同一个子订单
+}
+
+message FullRefundApiCreate{
+  int64 order_id = 1; // 主订单ID
+  repeated int64 sub_order_id = 2;//子订单ID
+  int64 order_refund_id = 3;//退款id，为空时由订单系统生成
+  string remark = 4; // 退款备注
+  repeated int32 reason_id = 5;// 退款原因ID 需要退款原因表
+  string addition_data = 6;//附加信息
+}
+
+// 退款响应参数
+message Refund{
+  int64 order_id = 1; //主订单ID
+  repeated RefundSubOrder refund_sub_orders = 2;//退款子订单
+  string currency = 3;//货币符号
+  int64 order_refund_id = 4;//退款ID
+  string biz = 5;//业务类型 外卖:ordering
+  int32 country_id = 6;
+  int32 city_id = 7;
+  int32 user_id = 8;
+  string uid = 9;
+  string refund_status = 10;//退款状态: 退款中-refunding, 已退款-refunded
+  string audit_status = 20;//审核状态：auditing-审核中，audit_fail-审核失败，audit_success-审核成功
+  double refund_amount = 11;
+  double refund_user_transaction_fee = 21;// 退款支付手续费
+  string remark = 12;
+  int64 refund_success_time = 13;
+  string refund_success_time_local = 14;
+  repeated RefundOrderAdditionFee refund_addition_fee = 15;//退款附加费
+  repeated RefundOrderDiscountFee refund_discount_fee = 16;//退款优惠费
+  int64 created_at = 17;//退款申请时间
+  string created_at_local = 18;//退款申请本地时间
+  string addition_data = 19;//附加信息
+  string audit_addition_data = 22;//退款审核附加信息
+  repeated Reason reason = 23;// 退款原因
+}
+
+message RefundSubOrder{
+  int64 sub_order_id = 1;
+  int64 order_refund_id = 2;//退款ID
+  string refund_status = 3;//退款状态: 退款中-refunding, 已退款-refunded
+  double refund_amount = 4;//退款金额
+  string remark = 5;
+  int64 refund_success_time = 6;
+  string refund_success_time_local = 7;
+  repeated RefundOrderItem refund_items = 8;
+  repeated RefundOrderAdditionFee refund_addition_fee = 15;//退款附加费
+  repeated RefundOrderDiscountFee refund_discount_fee = 16;//退款优惠费
+}
+
+// 退款订单项信息
+message RefundOrderItem{
+  int64 order_refund_id = 4;//退款ID
+  int64 order_item_id = 1; //退款订单项ID
+  string item_name = 2;//商品名称
+  string refund_status = 9;//退款状态: 退款中-refunding, 已退款-refunded
+  double refund_amount = 10;//退款金额
+  string remark = 11;
+  int64 refund_success_time = 12;//退款成功 UTC 时间戳
+  string refund_success_time_local = 13;//退款成功本地时间
+  repeated RefundOrderGoods refund_goods = 3;//退款商品项列表
+  repeated RefundOrderAdditionFee refund_addition_fee = 15;//退款附加费
+  repeated RefundOrderDiscountFee refund_discount_fee = 16;//退款优惠费
+}
+
+// 退款商品项信息
+message RefundOrderGoods{
+  int64 order_refund_id = 4;//退款ID
+  int64 order_goods_id = 1; //退款商品项ID
+  string goods_id = 2;//商品项ID
+  string biz_order_goods_id = 19;//业务方商品项id
+  string goods_name = 3;//商品项名称
+  string refund_status = 9;//退款状态: 退款中-refunding, 已退款-refunded
+  double refund_amount = 10;//退款总金额
+  double refund_origin_amount = 17;//退款原始金额
+  double refund_user_transaction_fee = 18;//用户退款手续费
+  string remark = 11;//
+  int64 refund_success_time = 12;//退款成功 UTC 时间戳
+  string refund_success_time_local = 13;//退款成功本地时间
+  repeated RefundOrderAdditionFee refund_addition_fee = 15;//退款附加费
+  repeated RefundOrderDiscountFee refund_discount_fee = 16;//退款优惠费
+
+}
+
+
+// 附加费信息响应数据
+message RefundOrderAdditionFee{
+  string title = 1;
+  string addition_type = 2;//附加费类型 tips:小费，package:打包费 etc...
+  int64 order_id = 3;// 主订单ID
+  int64 sub_order_id = 4;// 子订单ID，可选
+  int64 order_item_id = 5;// 订单项ID
+  int64 order_goods_id = 6;// 商品项ID
+  double platform_fee = 7;// 平台承担金额
+  double merchant_fee = 8; // 商家承担金额
+  double addition_amount = 9;// 附加费金额
+  string addition_data = 10;//附加信息
+
+}
+
+
+// 优惠费信息响应数据
+message RefundOrderDiscountFee{
+  string title = 1;
+  string discount_type = 2;// 店铺优惠-merchant_discount，平台满减-platform_discount
+  int64 order_id = 3;// 主订单ID
+  int64 sub_order_id = 4;// 子订单ID，可选
+  int64 order_item_id = 5;// 订单项ID
+  int64 order_goods_id = 6;// 商品项ID
+  double platform_fee = 7;// 平台承担金额
+  double merchant_fee = 8; // 商家承担金额
+  double discount_amount = 9; // 优惠金额
+  string addition_data = 12;//附加信息 json
+}

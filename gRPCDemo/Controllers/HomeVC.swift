@@ -10,9 +10,10 @@ import SnapKit
 
 
 class HomeVC: UIViewController {
-    
+    /// 数据
     var dataArr: [String] = ["A Simple Example", "客服端流式", "服务端流式", "双向多次应答" ,"上传图片"]
     
+    /// tableView
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.delegate = self
@@ -33,6 +34,7 @@ class HomeVC: UIViewController {
     }
 }
 
+// MARK: -  UITableViewDelegate, UITableViewDataSource
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -9,7 +9,7 @@ import Foundation
 import GRPC
 import NIO
 import Logging
-
+import NIOHPACK
 /// 拦截器
 
 class HelloClientInterceptor: ClientInterceptor<Helloworld_HelloRequest, Helloworld_HelloResponse> {

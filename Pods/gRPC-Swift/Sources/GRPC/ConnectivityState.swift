@@ -119,7 +119,7 @@ public class ConnectivityStateMonitor {
     }
 
     if let (oldState, newState) = change {
-      logger.info("connectivity state change", metadata: [
+      logger.debug("connectivity state change", metadata: [
         "old_state": "\(oldState)",
         "new_state": "\(newState)",
       ])
@@ -144,10 +144,10 @@ public class ConnectivityStateMonitor {
 extension ConnectivityStateMonitor: ConnectionManagerConnectivityDelegate {
   internal func connectionStateDidChange(
     _ connectionManager: ConnectionManager,
-    from oldState: ConnectivityState,
-    to newState: ConnectivityState
+    from oldState: _ConnectivityState,
+    to newState: _ConnectivityState
   ) {
-    self.updateState(to: newState, logger: connectionManager.logger)
+    self.updateState(to: ConnectivityState(newState), logger: connectionManager.logger)
   }
 
   internal func connectionIsQuiescing(_ connectionManager: ConnectionManager) {

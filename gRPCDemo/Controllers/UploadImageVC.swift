@@ -10,6 +10,7 @@ import UIKit
 import GRPC
 import NIO
 import Logging
+import NIOHPACK
 
 class UploadImageVC: UIViewController {
     
@@ -76,13 +77,13 @@ class UploadImageVC: UIViewController {
         let keepalive = ClientConnectionKeepalive(interval: .seconds(15),
                                                   timeout: .seconds(10))
         // 设置debug
-        var logger = Logger(label: "gRPC", factory: StreamLogHandler.standardError(label:))
+        var logger = Logger(label: "jh", factory: StreamLogHandler.standardError(label:))
         logger.logLevel = .debug
         
         // 信道
         let channel = ClientConnection
             .insecure(group: group) // 事件循环组
-            .withKeepalive(keepalive) // 保持长连接
+            .withKeepalive(keepalive) // 保持连接
             .withBackgroundActivityLogger(logger)
             .connect(host: host, port: port)
         
@@ -94,9 +95,15 @@ class UploadImageVC: UIViewController {
             $0.type = "PNG"
             $0.name = "1.png"
         }
+        
+        // 设置header
+        var options = CallOptions()
+        options.customMetadata = HPACKHeaders([("test", "哈哈哈"), ("test2", "哈哈哈2")])
+        
         // 发起请求
-        let call = client.upload(request)
+        let call = client.upload(request, callOptions: options)
         call.response.whenCompleteBlocking(onto: .main) { [weak self] result in
+            logger.info("response: \(result)")
             do {
                 let response = try result.get()
                 self?.textLabel.text = response.result
@@ -109,7 +116,9 @@ class UploadImageVC: UIViewController {
             }
             let _ = channel.close()
         }
-        
+        call.response.whenFailure { (error) in
+            print("error: \(error.localizedDescription)")
+        }
     }
     
 }

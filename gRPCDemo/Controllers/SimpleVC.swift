@@ -84,7 +84,7 @@ class SimpleVC: UIViewController {
         // 信道
         let channel = ClientConnection
             .insecure(group: group) // 事件循环组
-            .withKeepalive(keepalive) // 保持长连接
+            .withKeepalive(keepalive) // 保持连接
             .withBackgroundActivityLogger(logger)
             .connect(host: "localhost", port: 50051)
         
@@ -106,6 +106,43 @@ class SimpleVC: UIViewController {
             }
             let _ = channel.close()
         }
+        
+    }
+    
+    private func test() {
+        // 事件循环组
+        let group = PlatformSupport.makeEventLoopGroup(loopCount: 1)
+        
+        // 设置连接间隔时间/超时时间
+        let keepalive = ClientConnectionKeepalive(interval: .seconds(15),
+                                                  timeout: .seconds(10))
+        // 设置debug
+        var logger = Logger(label: "gRPC", factory: StreamLogHandler.standardError(label:))
+        logger.logLevel = .debug
+        
+        // 信道
+        let channel = ClientConnection
+            .insecure(group: group) // 事件循环组
+            .withKeepalive(keepalive) // 保持连接
+            .withBackgroundActivityLogger(logger)
+            .connect(host: "192.168.1.90", port: 5000)
+        
+        defer {
+            try! channel.close().wait()
+        }
+        
+        let client = Order_V1_RefundServiceClient(channel: channel)
+        let request = Order_V1_ReasonApi.with { $0.type = "customer" }
+        let call = client.reasonList(request)
+        call.response.whenCompleteBlocking(onto: .main) { [unowned self] result in
+            switch result {
+            case .success(let dataArr):
+                self.textLabel.text = dataArr.textFormatString()
+            case .failure(let error):
+                self.textLabel.text = error.localizedDescription
+            }
+        }
+        
     }
 }
 
